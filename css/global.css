@@ -1,0 +1,185 @@
+
+
+#container {
+	width:580px;
+	padding:10px;
+	margin:0 auto;
+	position:relative;
+	z-index:0;
+}
+
+#example {
+	width:884px;
+	height:241px;
+	position:relative;
+}
+
+#ribbon {
+	position:absolute;
+	top:-3px;
+	left:-15px;
+	z-index:500;
+}
+
+#frame {
+	position:absolute;
+	z-index:0;
+	width:884px;
+	height:241px;
+	top:-3px;
+	left:-80px;
+}
+
+/*
+	Slideshow
+*/
+
+#slides {
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:100;
+}
+
+/*
+	Slides container
+	Important:
+	Set the width of your slides container
+	Set to display none, prevents content flash
+*/
+
+.slides_container {
+	width:884px;
+	overflow:hidden;
+	position:relative;
+	display:none;
+}
+
+/*
+	Each slide
+	Important:
+	Set the width of your slides
+	If height not specified height will be set by the slide content
+	Set to display block
+*/
+
+.slides_container div.slide {
+	width:884px;
+	height:241px;
+	display:block;
+}
+
+
+/*
+	Next/prev buttons
+*/
+
+#slides .next,#slides .prev {
+	position:absolute;
+	top:107px;
+	left:-39px;
+	width:24px;
+	height:43px;
+	display:block;
+	z-index:101;
+}
+
+#slides .next {
+	left:585px;
+}
+
+/*
+	Pagination
+*/
+
+.pagination {
+        position: relative;
+        float: right;
+	margin: -20px 6px 0 0;
+	width:100px;
+        z-index: 200;
+}
+
+.pagination li {
+	float:left;
+	margin:0 3px;
+	list-style:none;
+}
+
+.pagination li a {
+	display:block;
+	width:12px;
+	height:0;
+	padding-top:12px;
+	background-image:url(../images/img/pagination.png);
+	background-position:0 0;
+	float:left;
+	overflow:hidden;
+}
+
+.pagination li.current a {
+	background-position:0 -12px;
+}
+
+/*
+	Caption
+*/
+
+.caption {
+	z-index:500;
+	position:absolute;
+	bottom:-35px;
+	right:0;
+	height:241px;
+	padding:25px 38px 25px 36px;
+	/*background:#000;*/
+        background-color: #666666;
+	/*background:rgba(0,0,0,.5);*/
+	width:296px;
+	font-size:1.3em;
+	line-height:1.33;
+	color:#e6e6e6;
+	text-shadow:none;
+}
+.greencolor{
+    color: #8dc63f !important;
+}
+.fromas{
+    margin-top: -4px; font-size: 15px
+}
+.amount{
+    font-size: 45px;margin-top: -6px;float: left
+}
+.new-product-description{
+    color:#e6e6e6;font-size:11.7pt;
+}
+.new-stuff-underline{
+    border-top:1px solid #fff; margin:0 auto; width:88%;margin-bottom: 5px;
+}
+.caption h1{
+    color:#e6e6e6 !important;
+}
+
+/*
+	Footer
+*/
+
+
+/*
+	Anchors
+*/
+
+a:link,a:visited {
+	color:#8DC63F ;
+	text-decoration:none;
+}
+
+.content-div a:hover {
+	color:#999 !important;
+	text-decoration:none;
+}
+
+a:hover,a:active {
+	color:#599100;
+	text-decoration:none;
+}

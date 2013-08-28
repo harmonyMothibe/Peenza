@@ -1,0 +1,142 @@
+<?php
+/* @var $this SiteController */
+/* @var $model LoginForm */
+/* @var $form CActiveForm  */
+
+$this->pageTitle = Yii::app()->name . ' - Register Dealer';
+$this->breadcrumbs = array(
+    'Register Dealer',
+);
+?>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/jquery.validate.js"></script>
+<div class="directory">
+    <a href="<?php echo Yii::app()->request->baseUrl; ?>/" class="greencolor">Home ></a> <span class="current">Register User</span>
+</div>
+<div class="products_heading">
+    Register To Be A User
+</div>
+<div style="" class="product-box">
+
+    <div style="" class="product-box-attrib">
+        <img src ="images/add-photo2.png" style="border: 1px solid #666; margin-bottom: 10px;"/>
+        <button style="width: 200px;  border: none; margin-left: 0px; margin-top: 1px;" class="btn" id="userregisterLink">Browse / Upload Photo</button>
+        <!--div style="background: #666; padding: 8px 0; color: #fff;">
+            <div class="upload-picture" style="width:72% !important; margin: 0 auto">
+                <a href="" rel="tooltip" title="Click here to to edit" data-placement="right" data-toggle="modal" data-target="#myModal-images-edit"  style="color:#fff">Browse / Upload Photo</a>
+            </div-->
+    </div>
+</div>
+<form name="register" method="post" action="index.php?r=site/userRegister" id="register" enctype='multipart/form-data'>
+    <div style="" class="product-spec">
+        <?php $name = Dealers::model()->attributeLabels($model); ?>
+        <div class="labelsAttributes"></div><input placeholder="<?php print('Name'); ?>" class="input-fields username" type="text" id="username" name="username">
+        <div class="labelsAttributes"></div><input placeholder="<?php print('Surname'); ?>" class="input-fields" type="text" id="user_surname" name="user_surname">
+        <div class="labelsAttributes"></div> <input placeholder="<?php print('Email Address'); ?>" class="input-fields email_address" type="text" id="email_address" name="email_address">
+        <div class="labelsAttributes"></div> <input placeholder="<?php print('password'); ?>" class="input-fields password_2" type="password" id="password_2" name="password_2">
+        <div class="labelsAttributes"></div> <input placeholder="Confirm Password" class="input-fields confirm_password" type="password" id="confirm_password" name="confirm_password">
+        <div class="labelsAttributes"><input type="hidden" name="register-value" value="yes" id="register-value" /></div>
+        <?php echo CHtml::activeFileField($model, 'profile_image', array('id' => 'profile_image', 'style'=>'display:none', 'size' => 84, 'class' => 'profile_image')); ?><br /><br />
+        <div class="labelsAttributes"></div> <button style="width: 180px;  border: none;float: right" class="btn" id="registerUser-btn">Submit User Details </button><!--input type="submit" value="Add Product"-->
+
+    </div>
+</form>
+<script language="javascript" type="text/javascript">
+    $(document).ready(function(){
+        var linkButton = $('#userregisterLink');
+        var fileUpload = $('#profile_image');
+        linkButton.click(function(){
+            fileUpload.click();
+        });
+    });
+</script>
+
+<?php
+//Only display the javacript if an image has been uploaded
+if(strlen($large_photo_exists)>0){
+	$current_large_image_width = $this->getWidth($large_image_location);
+	$current_large_image_height = $this->getHeight($large_image_location);?>
+<script type="text/javascript">
+function preview(img, selection) { 
+	var scaleX = <?php echo $thumb_width;?> / selection.width; 
+	var scaleY = <?php echo $thumb_height;?> / selection.height; 
+	
+	$('#thumbnail + div > img').css({ 
+		width: Math.round(scaleX * <?php echo $current_large_image_width;?>) + 'px', 
+		height: Math.round(scaleY * <?php echo $current_large_image_height;?>) + 'px',
+		marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px', 
+		marginTop: '-' + Math.round(scaleY * selection.y1) + 'px' 
+	});
+	$('#x1').val(selection.x1);
+	$('#y1').val(selection.y1);
+	$('#x2').val(selection.x2);
+	$('#y2').val(selection.y2);
+	$('#w').val(selection.width);
+	$('#h').val(selection.height);
+} 
+
+$(document).ready(function () { 
+	$('#save_thumb').click(function() {
+		var x1 = $('#x1').val();
+		var y1 = $('#y1').val();
+		var x2 = $('#x2').val();
+		var y2 = $('#y2').val();
+		var w = $('#w').val();
+		var h = $('#h').val();
+		if(x1=="" || y1=="" || x2=="" || y2=="" || w=="" || h==""){
+			alert("You must make a selection first");
+			return false;
+		}else{
+			return true;
+		}
+	});
+}); 
+
+$(window).load(function () { 
+	$('#thumbnail').imgAreaSelect({ aspectRatio: '1:<?php echo $thumb_height/$thumb_width;?>', onSelectChange: preview }); 
+});
+
+</script>
+<?php }?>
+<h1>Photo Upload and Crop</h1>
+<?php
+//Display error message if there are any
+if(strlen($error)>0){
+	echo "<ul><li><strong>Error!</strong></li><li>".$error."</li></ul>";
+}
+var_dump($thumb_photo_exists);
+
+if(strlen($large_photo_exists)>0 && strlen($thumb_photo_exists)>0){
+	echo $large_photo_exists."&nbsp;".$thumb_photo_exists;
+	echo "<p><a href=\"".$_SERVER["PHP_SELF"]."?a=delete&t=".$_SESSION['random_key'].$_SESSION['user_file_ext']."\">Delete images</a></p>";
+	echo "<p><a href=\"".$_SERVER["PHP_SELF"]."\">Upload another</a></p>";
+	//Clear the time stamp session and user file extension
+	$_SESSION['random_key']= "";
+	$_SESSION['user_file_ext']= "";
+}else{ ?>
+		<?php if(strlen($large_photo_exists)>0){?>
+		<h2>Create Thumbnail</h2>
+		<div align="center">
+			<img src="<?php echo $upload_path.$large_image_name.$_SESSION['user_file_ext'];?>" style="float: left; margin-right: 10px;" id="thumbnail" alt="Create Thumbnail" />
+			<div style="border:1px #e5e5e5 solid; float:left; position:relative; overflow:hidden; width:<?php echo $thumb_width;?>px; height:<?php echo $thumb_height;?>px;">
+				<img src="<?php echo $upload_path.$large_image_name.$_SESSION['user_file_ext'];?>" style="position: relative;" alt="Thumbnail Preview" />
+			</div>
+			<br style="clear:both;"/>
+			<form name="thumbnail" action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+				<input type="hidden" name="x1" value="" id="x1" />
+				<input type="hidden" name="y1" value="" id="y1" />
+				<input type="hidden" name="x2" value="" id="x2" />
+				<input type="hidden" name="y2" value="" id="y2" />
+				<input type="hidden" name="w" value="" id="w" />
+				<input type="hidden" name="h" value="" id="h" />
+				<input type="submit" name="upload_thumbnail" value="Save Thumbnail" id="save_thumb" />
+			</form>
+		</div>
+	<hr />
+	<?php 	} ?>
+	<h2>Upload Photo</h2>
+	<form name="photo" enctype="multipart/form-data" action="index.php?r=site/userRegister" method="post">
+	Photo <input type="file" name="image" size="30" /> <input type="submit" name="upload" value="Upload" />
+	</form>
+<?php } ?>
+
+</div>
